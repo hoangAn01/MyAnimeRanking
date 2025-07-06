@@ -19,7 +19,13 @@
       const animeListElement = document.getElementById('animeList');
       animeListElement.innerHTML = '<li>Đang tải dữ liệu từ server...</li>';
 
-      fetch('/api/animes')
+      // Use a placeholder for the production API URL.
+      // When deployed, this should be the URL of your backend server.
+      const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:3000/api/animes'
+        : 'https://your-backend-url.com/api/animes'; // <-- BẠN SẼ CẦN THAY THẾ URL NÀY
+
+      fetch(apiUrl)
         .then((response) => {
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
