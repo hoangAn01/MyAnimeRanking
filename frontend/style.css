@@ -1,0 +1,65 @@
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 960px;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #4a4a4a;
+  margin-bottom: 30px;
+}
+
+.anime-list {
+  list-style: none;
+  padding: 0;
+}
+
+.anime-item {
+  display: flex;
+  align-items: center;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  padding: 15px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.anime-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.anime-details {
+  flex-grow: 1;
+}
+
+.anime-title {
+  font-size: 1.5em;
+  font-weight: 600;
+  margin: 0 0 10px;
+  color: #d9534f;
+}
+
+.anime-info {
+  margin: 5px 0;
+  color: #555;
+}
+.anime-description {
+  margin-top: 10px;
+  color: #666;
+  font-size: 0.9em;
+  line-height: 1.5;
+}
