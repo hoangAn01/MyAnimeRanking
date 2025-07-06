@@ -42,23 +42,6 @@ h1 {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
-.anime-rank {
-  font-size: 2em;
-  font-weight: bold;
-  color: #666;
-  margin-right: 20px;
-  min-width: 40px;
-  text-align: center;
-}
-
-.anime-image {
-  width: 100px;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 4px;
-  margin-right: 20px;
-}
-
 .anime-details {
   flex-grow: 1;
 }
@@ -73,4 +56,10 @@ h1 {
 .anime-info {
   margin: 5px 0;
   color: #555;
+}
+.anime-description {
+  margin-top: 10px;
+  color: #666;
+  font-size: 0.9em;
+  line-height: 1.5;
 }

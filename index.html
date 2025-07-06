@@ -36,12 +36,11 @@
             .map(
               (anime) => `
             <li class="anime-item">
-              <span class="anime-rank">#${anime.rank}</span>
-              <img src="${anime.image}" alt="${anime.title}" class="anime-image">
               <div class="anime-details">
                 <h2 class="anime-title">${anime.title}</h2>
-                <p class="anime-info"><strong>Tập:</strong> ${anime.episodes}</p>
                 <p class="anime-info"><strong>Điểm:</strong> ${anime.rating} ⭐</p>
+                <p class="anime-info"><strong>Thể loại:</strong> ${anime.genre}</p>
+                <p class="anime-description">${anime.description}</p>
               </div>
             </li>
           `
