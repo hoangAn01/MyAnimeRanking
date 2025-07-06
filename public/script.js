@@ -4,10 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Use a placeholder for the production API URL.
   // When deployed, this should be the URL of your backend server.
-  const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:3000/api/animes'
-    : 'https://your-backend-url.com/api/animes'; // <-- BẠN SẼ CẦN THAY THẾ URL NÀY
-
+  // ...existing code...
+const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:3000/api/animes'
+  : 'https://myanimeranking-backend.onrender.com';
+// ...existing code...
   fetch(apiUrl)
     .then((response) => {
       if (!response.ok) {
