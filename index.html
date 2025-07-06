@@ -1,37 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Anime Review</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      max-width: 800px;
-      margin: auto;
-      padding: 2rem;
-      background-color: #f5f5f5;
-    }
-    h1 {
-      color: #2c3e50;
-    }
-    ul {
-      padding-left: 1rem;
-    }
-  </style>
+  <title>Bảng Xếp Hạng Anime</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>🎌 Welcome to Anime Review Site!</h1>
-  <p>Nếu bạn thấy được trang này, GitHub Pages đã hoạt động ✅</p>
-  <h2>Dữ liệu anime (sẽ hiển thị ở đây sau):</h2>
-  <ul id="animeList">
-    <!-- Dữ liệu anime sẽ được chèn vào đây bằng JS -->
-  </ul>
+  <div class="container">
+    <h1>🏆 Bảng Xếp Hạng Anime 🏆</h1>
+    <ul id="animeList" class="anime-list">
+      <!-- Dữ liệu anime sẽ được chèn vào đây bằng JavaScript -->
+    </ul>
+  </div>
 
+  <script src="data.js"></script>
   <script>
-    // Kiểm tra JS hoạt động
-    const list = document.getElementById('animeList');
-    list.innerHTML = '<li>Dữ liệu đang được tải...</li>';
+    const animeListElement = document.getElementById('animeList');
+
+    // Sắp xếp dữ liệu theo rank
+    const sortedAnimeData = animeData.sort((a, b) => a.rank - b.rank);
+
+    // Tạo HTML cho mỗi anime
+    const animeHTML = sortedAnimeData
+      .map(
+        (anime) => `
+      <li class="anime-item">
+        <span class="anime-rank">#${anime.rank}</span>
+        <img src="${anime.image}" alt="${anime.title}" class="anime-image">
+        <div class="anime-details">
+          <h2 class="anime-title">${anime.title}</h2>
+          <p class="anime-info"><strong>Tập:</strong> ${anime.episodes}</p>
+          <p class="anime-info"><strong>Điểm:</strong> ${anime.rating} ⭐</p>
+        </div>
+      </li>
+    `
+      )
+      .join('');
+
+    // Chèn HTML vào danh sách
+    animeListElement.innerHTML = animeHTML;
   </script>
 </body>
 </html>
