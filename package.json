@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Backend for the anime ranking web app",
   "main": "server.js",
+  "license": "MIT",
   "scripts": {
     "start": "node server.js"
   },
