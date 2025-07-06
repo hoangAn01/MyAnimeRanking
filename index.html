@@ -14,32 +14,46 @@
     </ul>
   </div>
 
-  <script src="data.js"></script>
   <script>
-    const animeListElement = document.getElementById('animeList');
+    document.addEventListener('DOMContentLoaded', () => {
+      const animeListElement = document.getElementById('animeList');
+      animeListElement.innerHTML = '<li>Đang tải dữ liệu từ server...</li>';
 
-    // Sắp xếp dữ liệu theo rank
-    const sortedAnimeData = animeData.sort((a, b) => a.rank - b.rank);
+      fetch('/api/animes')
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((animes) => {
+          if (animes.length === 0) {
+            animeListElement.innerHTML = '<li>Chưa có dữ liệu anime trong database.</li>';
+            return;
+          }
 
-    // Tạo HTML cho mỗi anime
-    const animeHTML = sortedAnimeData
-      .map(
-        (anime) => `
-      <li class="anime-item">
-        <span class="anime-rank">#${anime.rank}</span>
-        <img src="${anime.image}" alt="${anime.title}" class="anime-image">
-        <div class="anime-details">
-          <h2 class="anime-title">${anime.title}</h2>
-          <p class="anime-info"><strong>Tập:</strong> ${anime.episodes}</p>
-          <p class="anime-info"><strong>Điểm:</strong> ${anime.rating} ⭐</p>
-        </div>
-      </li>
-    `
-      )
-      .join('');
-
-    // Chèn HTML vào danh sách
-    animeListElement.innerHTML = animeHTML;
+          const animeHTML = animes
+            .map(
+              (anime) => `
+            <li class="anime-item">
+              <span class="anime-rank">#${anime.rank}</span>
+              <img src="${anime.image}" alt="${anime.title}" class="anime-image">
+              <div class="anime-details">
+                <h2 class="anime-title">${anime.title}</h2>
+                <p class="anime-info"><strong>Tập:</strong> ${anime.episodes}</p>
+                <p class="anime-info"><strong>Điểm:</strong> ${anime.rating} ⭐</p>
+              </div>
+            </li>
+          `
+            )
+            .join('');
+          animeListElement.innerHTML = animeHTML;
+        })
+        .catch((error) => {
+          console.error('Error fetching anime data:', error);
+          animeListElement.innerHTML = '<li>Có lỗi xảy ra khi tải dữ liệu. Vui lòng kiểm tra console.</li>';
+        });
+    });
   </script>
 </body>
 </html>
