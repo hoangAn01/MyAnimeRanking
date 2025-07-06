@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ...existing code...
 const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:3000/api/animes'
-  : 'https://myanimeranking-backend.onrender.com';
+  : 'https://myanimeranking-backend.onrender.com/api/animes';
 // ...existing code...
   fetch(apiUrl)
     .then((response) => {

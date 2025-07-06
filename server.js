@@ -7,7 +7,9 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(cors());
+app.use(cors({
+  origin: 'https://myanimeranking.onrender.com'
+}));
 app.use(express.json());
 
 // Serve static files from the frontend folder
