@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 // Serve static files from the frontend folder
-app.use(express.static(path.join(__dirname, '../frontend')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri);
@@ -40,6 +40,10 @@ async function run() {
 }
 
 run().catch(console.dir);
+
+app.get('/health', (req, res) => {
+  res.send('OK');
+});
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
