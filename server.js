@@ -7,11 +7,7 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-const corsOptions = {
-  origin: 'https://myanimeranking.onrender.com',
-  optionsSuccessStatus: 200
-};
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 
 // Serve static files from the frontend folder
@@ -28,7 +24,7 @@ async function run() {
     const animes = database.collection('Animes');
 
     // API endpoint to get all anime
-    app.get('/animes', async (req, res) => {
+    app.get('/api/animes', async (req, res) => {
       try {
         const allAnimes = await animes.find({}).sort({ rating: -1 }).toArray();
         res.json(allAnimes);
