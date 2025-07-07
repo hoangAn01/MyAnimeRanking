@@ -28,6 +28,7 @@ const apiUrl = window.location.hostname === 'localhost' || window.location.hostn
           (anime) => `
         <li class="anime-item">
           <div class="anime-details">
+            <img class="anime-img" src="${anime.imgURL || ''}" alt="${anime.title}" style="max-width:120px;max-height:170px;object-fit:cover;margin-bottom:8px;"/>
             <h2 class="anime-title">${anime.title}</h2>
             <p class="anime-info"><strong>Điểm:</strong> ${anime.rating} ⭐</p>
             <p class="anime-info"><strong>Thể loại:</strong> ${anime.genre}</p>
