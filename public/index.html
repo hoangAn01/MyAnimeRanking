@@ -7,13 +7,35 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <button id="theme-toggle" title="Chuyển theme">🌙</button>
   <div class="container">
+    <div class="logo-container">
+      <div class="matrix-background"></div>
+      <h1 class="game-logo">AN<span>XO</span></h1>
+    </div>
     <h1>🏆 Bảng Xếp Hạng Anime 🏆</h1>
     <ul id="animeList" class="anime-list">
       <!-- Dữ liệu anime sẽ được chèn vào đây bằng JavaScript -->
     </ul>
   </div>
-
   <script src="script.js"></script>
+  <script>
+    // Theme toggle logic
+    const btn = document.getElementById('theme-toggle');
+    function setTheme(dark) {
+      if (dark) {
+        document.body.classList.add('dark-theme');
+        btn.textContent = '☀️';
+      } else {
+        document.body.classList.remove('dark-theme');
+        btn.textContent = '🌙';
+      }
+    }
+    btn.onclick = () => {
+      setTheme(!document.body.classList.contains('dark-theme'));
+    };
+    // Optional: remember theme
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) setTheme(true);
+  </script>
 </body>
 </html>
