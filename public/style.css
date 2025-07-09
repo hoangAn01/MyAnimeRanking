@@ -246,3 +246,101 @@ body.dark-theme .matrix-background {
   cursor: move;
   object-fit: cover;
 }
+
+/* Add Anime Form Styles */
+.add-anime-form {
+  background: #f7f7f7;
+  border-radius: 8px;
+  padding: 18px 20px 12px 20px;
+  margin: 0 auto 30px auto;
+  max-width: 500px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.add-anime-form h2 {
+  margin: 0 0 10px 0;
+  color: #0f0;
+  font-size: 1.3em;
+  text-align: center;
+}
+.add-anime-form input,
+.add-anime-form textarea {
+  padding: 8px 10px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  font-size: 1em;
+  font-family: inherit;
+  resize: none;
+}
+.add-anime-form textarea {
+  min-height: 60px;
+}
+.add-anime-form button {
+  background: #0f0;
+  color: #222;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 0;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.add-anime-form button:hover {
+  background: #0c0;
+}
+#form-message {
+  min-height: 18px;
+  color: #d9534f;
+  text-align: center;
+  font-size: 0.98em;
+}
+body.dark-theme .add-anime-form {
+  background: #181f25;
+  box-shadow: 0 2px 8px rgba(0,255,0,0.07);
+}
+body.dark-theme .add-anime-form input,
+body.dark-theme .add-anime-form textarea {
+  background: #222;
+  color: #e0e0e0;
+  border: 1px solid #444;
+}
+body.dark-theme .add-anime-form button {
+  background: #0f0;
+  color: #181f25;
+}
+body.dark-theme #form-message {
+  color: #0f0;
+}
+
+.show-form-btn {
+  position: fixed;
+  top: 80px;
+  right: 32px;
+  z-index: 101;
+  background: #0f0;
+  color: #222;
+  border: none;
+  border-radius: 50px;
+  padding: 12px 22px;
+  font-size: 1.1em;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0,255,0,0.08);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.show-form-btn:hover {
+  background: #0c0;
+  color: #fff;
+}
+body.dark-theme .show-form-btn {
+  background: #222;
+  color: #0f0;
+  border: 1px solid #0f0;
+}
+body.dark-theme .show-form-btn:hover {
+  background: #0f0;
+  color: #222;
+}

@@ -44,4 +44,54 @@ const apiUrl = window.location.hostname === 'localhost' || window.location.hostn
       console.error('Error fetching anime data:', error);
       animeListElement.innerHTML = '<li>Có lỗi xảy ra khi tải dữ liệu. Vui lòng kiểm tra console.</li>';
     });
+
+  // Form thêm anime mới
+  const addAnimeForm = document.getElementById('add-anime-form');
+  const formMessage = document.getElementById('form-message');
+  if (addAnimeForm) {
+    addAnimeForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      formMessage.textContent = '';
+      const formData = new FormData(addAnimeForm);
+      const animeData = {
+        title: formData.get('title'),
+        rating: formData.get('rating'),
+        genre: formData.get('genre'),
+        description: formData.get('description'),
+        imgURL: formData.get('imgURL'),
+      };
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(animeData),
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.message || 'Lỗi khi thêm anime');
+        formMessage.style.color = '#0f0';
+        formMessage.textContent = 'Thêm anime thành công!';
+        addAnimeForm.reset();
+        // Reload danh sách anime
+        setTimeout(() => window.location.reload(), 700);
+      } catch (err) {
+        formMessage.style.color = '#d9534f';
+        formMessage.textContent = err.message;
+      }
+    });
+  }
+
+  // Hiện/ẩn form thêm anime
+  const showFormBtn = document.getElementById('show-form-btn');
+  if (showFormBtn && addAnimeForm) {
+    showFormBtn.addEventListener('click', () => {
+      if (addAnimeForm.style.display === 'none') {
+        addAnimeForm.style.display = 'flex';
+        showFormBtn.style.display = 'none';
+      }
+    });
+    addAnimeForm.addEventListener('submit', () => {
+      showFormBtn.style.display = 'block';
+      addAnimeForm.style.display = 'none';
+    });
+  }
 });

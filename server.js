@@ -33,6 +33,21 @@ async function run() {
       }
     });
 
+    // API endpoint to add a new anime
+    app.post('/api/animes', async (req, res) => {
+      try {
+        const { title, rating, genre, description, imgURL } = req.body;
+        if (!title || !rating || !genre || !description || !imgURL) {
+          return res.status(400).json({ message: 'Vui lòng nhập đầy đủ thông tin.' });
+        }
+        const newAnime = { title, rating: parseFloat(rating), genre, description, imgURL };
+        const result = await animes.insertOne(newAnime);
+        res.status(201).json({ message: 'Thêm anime thành công!', anime: newAnime });
+      } catch (err) {
+        res.status(500).json({ message: err.message });
+      }
+    });
+
   } catch (err) {
     console.error("Failed to connect to MongoDB", err);
     process.exit(1);

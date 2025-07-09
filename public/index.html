@@ -14,6 +14,17 @@
       <h1 class="game-logo">AN<span>XO</span></h1>
     </div>
     <h1>🏆 Bảng Xếp Hạng Anime 🏆</h1>
+    <button id="show-form-btn" class="show-form-btn" type="button">+ Thêm Anime</button>
+    <form id="add-anime-form" class="add-anime-form" style="display:none;">
+      <h2>Thêm Anime Mới</h2>
+      <input type="text" name="title" placeholder="Tên anime" required />
+      <input type="number" name="rating" placeholder="Điểm (VD: 8.5)" step="0.1" min="0" max="10" required />
+      <input type="text" name="genre" placeholder="Thể loại" required />
+      <input type="text" name="imgURL" placeholder="Link ảnh (imgURL)" required />
+      <textarea name="description" placeholder="Mô tả" required></textarea>
+      <button type="submit">Thêm Anime</button>
+      <div id="form-message"></div>
+    </form>
     <ul id="animeList" class="anime-list">
       <!-- Dữ liệu anime sẽ được chèn vào đây bằng JavaScript -->
     </ul>
@@ -40,6 +51,21 @@
     };
     // Optional: remember theme
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) setTheme(true);
+
+    // Show/hide form logic
+    const showFormBtn = document.getElementById('show-form-btn');
+    const addAnimeForm = document.getElementById('add-anime-form');
+    showFormBtn.onclick = () => {
+      const isVisible = addAnimeForm.style.display === 'flex';
+      addAnimeForm.style.display = isVisible ? 'none' : 'flex';
+      showFormBtn.textContent = isVisible ? '+ Thêm Anime' : '− Đóng Form';
+    };
+    // Reset nút khi submit thành công
+    addAnimeForm.addEventListener('submit', () => {
+      addAnimeForm.style.display = 'none';
+      showFormBtn.textContent = '+ Thêm Anime';
+      showFormBtn.style.display = 'block';
+    });
   </script>
 </body>
 </html>
