@@ -229,3 +229,20 @@ body.dark-theme .game-logo span {
 body.dark-theme .matrix-background {
   background: linear-gradient(rgba(0,20,0,0.95), rgba(0,20,0,1));
 }
+
+#background-video {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #e0e0e0;
+  position: fixed;
+  bottom: 10px;
+  left: 66px;
+  top: 41px;
+  width: 128px;
+  height: 83px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  z-index: 50;
+  transition: none;
+  cursor: move;
+  object-fit: cover;
+}
