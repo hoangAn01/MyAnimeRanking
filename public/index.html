@@ -14,7 +14,14 @@
       <h1 class="game-logo">AN<span>XO</span></h1>
     </div>
     <h1>🏆 Bảng Xếp Hạng Anime 🏆</h1>
-    <button id="show-form-btn" class="show-form-btn" type="button">+ Thêm Anime</button>
+    <form id="login-form" class="login-form">
+      <h2>Đăng nhập để thêm Anime</h2>
+      <input type="text" name="username" placeholder="Username (a123)" required />
+      <input type="password" name="password" placeholder="Password (a123)" required />
+      <button type="submit">Đăng nhập</button>
+      <div id="login-message"></div>
+    </form>
+    <button id="show-form-btn" class="show-form-btn" type="button" style="display:none;">+ Thêm Anime</button>
     <form id="add-anime-form" class="add-anime-form" style="display:none;">
       <h2>Thêm Anime Mới</h2>
       <input type="text" name="title" placeholder="Tên anime" required />

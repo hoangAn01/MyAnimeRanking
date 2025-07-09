@@ -54,6 +54,8 @@ const apiUrl = window.location.hostname === 'localhost' || window.location.hostn
       formMessage.textContent = '';
       const formData = new FormData(addAnimeForm);
       const animeData = {
+        username: formData.get('username'),
+        password: formData.get('password'),
         title: formData.get('title'),
         rating: formData.get('rating'),
         genre: formData.get('genre'),
@@ -80,8 +82,30 @@ const apiUrl = window.location.hostname === 'localhost' || window.location.hostn
     });
   }
 
-  // Hiện/ẩn form thêm anime
+  // Login logic
+  const loginForm = document.getElementById('login-form');
+  const loginMessage = document.getElementById('login-message');
   const showFormBtn = document.getElementById('show-form-btn');
+  if (loginForm) {
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = loginForm.username.value.trim();
+      const password = loginForm.password.value.trim();
+      if (username === 'a123' && password === 'a123') {
+        loginMessage.style.color = '#0f0';
+        loginMessage.textContent = 'Đăng nhập thành công!';
+        setTimeout(() => {
+          loginForm.style.display = 'none';
+          showFormBtn.style.display = 'block';
+        }, 500);
+      } else {
+        loginMessage.style.color = '#d9534f';
+        loginMessage.textContent = 'Sai tài khoản hoặc mật khẩu!';
+      }
+    });
+  }
+
+  // Hiện/ẩn form thêm anime
   if (showFormBtn && addAnimeForm) {
     showFormBtn.addEventListener('click', () => {
       if (addAnimeForm.style.display === 'none') {

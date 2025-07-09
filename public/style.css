@@ -266,6 +266,9 @@ body.dark-theme .matrix-background {
   text-align: center;
 }
 .add-anime-form input,
+.add-anime-form input[type="text"],
+.add-anime-form input[type="password"],
+.add-anime-form input[type="number"],
 .add-anime-form textarea {
   padding: 8px 10px;
   border: 1px solid #bbb;
@@ -343,4 +346,66 @@ body.dark-theme .show-form-btn {
 body.dark-theme .show-form-btn:hover {
   background: #0f0;
   color: #222;
+}
+
+/* Login Form Styles */
+.login-form {
+  background: #f7f7f7;
+  border-radius: 8px;
+  padding: 18px 20px 12px 20px;
+  margin: 0 auto 30px auto;
+  max-width: 350px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.login-form h2 {
+  margin: 0 0 10px 0;
+  color: #0f0;
+  font-size: 1.1em;
+  text-align: center;
+}
+.login-form input {
+  padding: 8px 10px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  font-size: 1em;
+  font-family: inherit;
+}
+.login-form button {
+  background: #0f0;
+  color: #222;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 0;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.login-form button:hover {
+  background: #0c0;
+}
+#login-message {
+  min-height: 18px;
+  color: #d9534f;
+  text-align: center;
+  font-size: 0.98em;
+}
+body.dark-theme .login-form {
+  background: #181f25;
+  box-shadow: 0 2px 8px rgba(0,255,0,0.07);
+}
+body.dark-theme .login-form input {
+  background: #222;
+  color: #e0e0e0;
+  border: 1px solid #444;
+}
+body.dark-theme .login-form button {
+  background: #0f0;
+  color: #181f25;
+}
+body.dark-theme #login-message {
+  color: #0f0;
 }
