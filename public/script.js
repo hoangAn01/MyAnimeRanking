@@ -79,11 +79,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Hiện/ẩn form thêm anime
   const showFormBtn = document.getElementById('show-form-btn');
-  if (showFormBtn && addAnimeForm) {
-    showFormBtn.addEventListener('click', () => {
-      const isVisible = addAnimeForm.style.display === 'flex';
-      addAnimeForm.style.display = isVisible ? 'none' : 'flex';
+  const formContainer = document.getElementById('form-container');
+  
+  if (showFormBtn && formContainer) {
+    console.log('Đã tìm thấy nút và form container');
+    showFormBtn.onclick = function() {
+      console.log('Nút được click');
+      const isVisible = formContainer.style.display === 'block';
+      formContainer.style.display = isVisible ? 'none' : 'block';
       showFormBtn.textContent = isVisible ? '+ Thêm Anime' : '− Đóng Form';
+      console.log('Form container display:', formContainer.style.display);
+    };
+  } else {
+    console.error('Không tìm thấy các phần tử:', {
+      showFormBtn: showFormBtn ? 'Tìm thấy' : 'Không tìm thấy',
+      formContainer: formContainer ? 'Tìm thấy' : 'Không tìm thấy'
     });
   }
 });

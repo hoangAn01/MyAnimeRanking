@@ -14,17 +14,19 @@
       <h1 class="game-logo">AN<span>XO</span></h1>
     </div>
     <h1>🏆 Bảng Xếp Hạng Anime 🏆</h1>
-    <button id="show-form-btn" class="show-form-btn" type="button">+ Thêm Anime</button>
-    <form id="add-anime-form" class="add-anime-form" style="display:none;">
-      <h2>Thêm Anime Mới</h2>
-      <input type="text" name="title" placeholder="Tên anime" required />
-      <input type="number" name="rating" placeholder="Điểm (VD: 8.5)" step="0.1" min="0" max="10" required />
-      <input type="text" name="genre" placeholder="Thể loại" required />
-      <input type="text" name="imgURL" placeholder="Link ảnh (imgURL)" required />
-      <textarea name="description" placeholder="Mô tả" required></textarea>
-      <button type="submit">Thêm Anime</button>
-      <div id="form-message"></div>
-    </form>
+    <button id="show-form-btn" class="show-form-btn">+ Thêm Anime</button>
+    <div id="form-container">
+      <form id="add-anime-form" class="add-anime-form">
+        <h2>Thêm Anime Mới</h2>
+        <input type="text" name="title" placeholder="Tên anime" required />
+        <input type="number" name="rating" placeholder="Điểm (VD: 8.5)" step="0.1" min="0" max="10" required />
+        <input type="text" name="genre" placeholder="Thể loại" required />
+        <input type="text" name="imgURL" placeholder="Link ảnh (imgURL)" required />
+        <textarea name="description" placeholder="Mô tả" required></textarea>
+        <button type="submit">Thêm Anime</button>
+        <div id="form-message"></div>
+      </form>
+    </div>
     <ul id="animeList" class="anime-list">
       <!-- Dữ liệu anime sẽ được chèn vào đây bằng JavaScript -->
     </ul>
