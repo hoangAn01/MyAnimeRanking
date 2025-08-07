@@ -33,13 +33,10 @@ async function run() {
       }
     });
 
-    // API endpoint to add a new anime (with simple auth)
+    // API endpoint to add a new anime
     app.post('/api/animes', async (req, res) => {
       try {
-        const { username, password, title, rating, genre, description, imgURL } = req.body;
-        if (username !== 'a123' || password !== 'a123') {
-          return res.status(401).json({ message: 'Sai tài khoản hoặc mật khẩu!' });
-        }
+        const { title, rating, genre, description, imgURL } = req.body;
         if (!title || !rating || !genre || !description || !imgURL) {
           return res.status(400).json({ message: 'Vui lòng nhập đầy đủ thông tin.' });
         }

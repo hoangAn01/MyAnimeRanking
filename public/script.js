@@ -2,14 +2,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const animeListElement = document.getElementById('animeList');
   animeListElement.innerHTML = '<li>Đang tải dữ liệu từ server...</li>';
 
-  // Use a placeholder for the production API URL.
-  // When deployed, this should be the URL of your backend server.
-  // ...existing code...
+  const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:3000/api/animes'
+    : 'https://myanimeranking.onrender.com/api/animes';
 
-
-const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-  ? 'http://localhost:3000/api/animes'
-  : 'https://myanimeranking.onrender.com/api/animes';
+  // Load danh sách anime
   fetch(apiUrl)
     .then((response) => {
       if (!response.ok) {
@@ -54,8 +51,6 @@ const apiUrl = window.location.hostname === 'localhost' || window.location.hostn
       formMessage.textContent = '';
       const formData = new FormData(addAnimeForm);
       const animeData = {
-        username: formData.get('username'),
-        password: formData.get('password'),
         title: formData.get('title'),
         rating: formData.get('rating'),
         genre: formData.get('genre'),
@@ -82,40 +77,13 @@ const apiUrl = window.location.hostname === 'localhost' || window.location.hostn
     });
   }
 
-  // Login logic
-  const loginForm = document.getElementById('login-form');
-  const loginMessage = document.getElementById('login-message');
-  const showFormBtn = document.getElementById('show-form-btn');
-  if (loginForm) {
-    loginForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const username = loginForm.username.value.trim();
-      const password = loginForm.password.value.trim();
-      if (username === 'a123' && password === 'a123') {
-        loginMessage.style.color = '#0f0';
-        loginMessage.textContent = 'Đăng nhập thành công!';
-        setTimeout(() => {
-          loginForm.style.display = 'none';
-          showFormBtn.style.display = 'block';
-        }, 500);
-      } else {
-        loginMessage.style.color = '#d9534f';
-        loginMessage.textContent = 'Sai tài khoản hoặc mật khẩu!';
-      }
-    });
-  }
-
   // Hiện/ẩn form thêm anime
+  const showFormBtn = document.getElementById('show-form-btn');
   if (showFormBtn && addAnimeForm) {
     showFormBtn.addEventListener('click', () => {
-      if (addAnimeForm.style.display === 'none') {
-        addAnimeForm.style.display = 'flex';
-        showFormBtn.style.display = 'none';
-      }
-    });
-    addAnimeForm.addEventListener('submit', () => {
-      showFormBtn.style.display = 'block';
-      addAnimeForm.style.display = 'none';
+      const isVisible = addAnimeForm.style.display === 'flex';
+      addAnimeForm.style.display = isVisible ? 'none' : 'flex';
+      showFormBtn.textContent = isVisible ? '+ Thêm Anime' : '− Đóng Form';
     });
   }
 });
