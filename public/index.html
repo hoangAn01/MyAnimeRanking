@@ -59,17 +59,20 @@
     // Show/hide form logic
     const showFormBtn = document.getElementById('show-form-btn');
     const addAnimeForm = document.getElementById('add-anime-form');
-    showFormBtn.onclick = () => {
-      const isVisible = addAnimeForm.style.display === 'flex';
-      addAnimeForm.style.display = isVisible ? 'none' : 'flex';
-      showFormBtn.textContent = isVisible ? '+ Thêm Anime' : '− Đóng Form';
-    };
-    // Reset nút khi submit thành công
-    addAnimeForm.addEventListener('submit', () => {
-      addAnimeForm.style.display = 'none';
-      showFormBtn.textContent = '+ Thêm Anime';
-      showFormBtn.style.display = 'block';
-    });
+    
+    if (showFormBtn && addAnimeForm) {
+      showFormBtn.addEventListener('click', () => {
+        const isVisible = addAnimeForm.style.display === 'flex';
+        addAnimeForm.style.display = isVisible ? 'none' : 'flex';
+        showFormBtn.textContent = isVisible ? '+ Thêm Anime' : '− Đóng Form';
+      });
+
+      // Reset nút khi submit thành công
+      addAnimeForm.addEventListener('submit', () => {
+        addAnimeForm.style.display = 'none';
+        showFormBtn.textContent = '+ Thêm Anime';
+      });
+    }
   </script>
 </body>
 </html>

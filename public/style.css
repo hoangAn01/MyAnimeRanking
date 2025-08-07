@@ -333,6 +333,7 @@ body.dark-theme #form-message {
   box-shadow: 0 2px 8px rgba(0,255,0,0.08);
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
+  display: block; /* Đảm bảo nút luôn hiển thị */
 }
 .show-form-btn:hover {
   background: #0c0;
