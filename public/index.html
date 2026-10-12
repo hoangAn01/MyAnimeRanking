@@ -4,78 +4,77 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bảng Xếp Hạng Anime</title>
-  <link rel ="icon" href="img/128642130_p0_master1200.jpg" type="image/png"/>
+  <link rel="icon" href="img/128642130_p0_master1200.jpg" type="image/jpeg" />
   <link rel="stylesheet" href="style.css" />
+  <script>
+    (function () {
+      const saved = localStorage.getItem('theme');
+      const dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (dark) document.documentElement.classList.add('dark-theme');
+    })();
+  </script>
 </head>
 <body>
-  <button id="theme-toggle" title="Chuyển theme">🌙</button>
-  <div class="container">
-    <div class="logo-container">
-      <div class="matrix-background"></div>
+  <header class="topbar">
+    <a href="#" class="brand">AN<span>XO</span></a>
+    <div class="topbar-actions">
+      <button id="show-form-btn" class="btn btn-primary" type="button">+ Thêm Anime</button>
+      <button id="theme-toggle" class="icon-btn" type="button" title="Chuyển theme" aria-label="Chuyển theme">🌙</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <video class="hero-video" autoplay muted loop playsinline aria-hidden="true">
+      <source src="video/anime%20eye%20edit.mp4" type="video/mp4" />
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
       <h1 class="game-logo">AN<span>XO</span></h1>
+      <p class="hero-subtitle">🏆 Bảng Xếp Hạng Anime 🏆</p>
+      <div class="hero-stats">
+        <div class="stat"><span id="stat-count" class="stat-value">–</span><span class="stat-label">Anime</span></div>
+        <div class="stat"><span id="stat-avg" class="stat-value">–</span><span class="stat-label">Điểm TB</span></div>
+        <div class="stat"><span id="stat-top" class="stat-value">–</span><span class="stat-label">Cao nhất</span></div>
+      </div>
     </div>
-    <h1>🏆 Bảng Xếp Hạng Anime 🏆</h1>
-    <button id="show-form-btn" class="show-form-btn">+ Thêm Anime</button>
-    <div id="form-container">
-      <form id="add-anime-form" class="add-anime-form">
-        <h2>Thêm Anime Mới</h2>
-        <input type="text" name="title" placeholder="Tên anime" required />
-        <input type="number" name="rating" placeholder="Điểm (VD: 8.5)" step="0.1" min="0" max="10" required />
-        <input type="text" name="genre" placeholder="Thể loại" required />
-        <input type="text" name="imgURL" placeholder="Link ảnh (imgURL)" required />
-        <textarea name="description" placeholder="Mô tả" required></textarea>
-        <button type="submit">Thêm Anime</button>
-        <div id="form-message"></div>
-      </form>
+  </section>
+
+  <main class="container">
+    <div class="toolbar">
+      <input id="search-input" class="input search-input" type="search" placeholder="🔍 Tìm anime..." aria-label="Tìm anime" />
+      <select id="genre-filter" class="input" aria-label="Lọc theo thể loại">
+        <option value="">Tất cả thể loại</option>
+      </select>
+      <select id="sort-select" class="input" aria-label="Sắp xếp">
+        <option value="rating-desc">Điểm cao → thấp</option>
+        <option value="rating-asc">Điểm thấp → cao</option>
+        <option value="title-asc">Tên A → Z</option>
+      </select>
     </div>
-    <ul id="animeList" class="anime-list">
-      <!-- Dữ liệu anime sẽ được chèn vào đây bằng JavaScript -->
-    </ul>
+
+    <ul id="animeList" class="anime-list"></ul>
+    <p id="list-status" class="list-status" hidden></p>
+  </main>
+
+  <div id="form-container" class="modal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <form id="add-anime-form" class="add-anime-form" role="dialog" aria-modal="true" aria-labelledby="form-title">
+      <button type="button" class="modal-close" data-close aria-label="Đóng">×</button>
+      <h2 id="form-title">Thêm Anime Mới</h2>
+      <label>Tên anime<input class="input" type="text" name="title" placeholder="VD: Steins;Gate" required /></label>
+      <div class="form-row">
+        <label>Điểm<input class="input" type="number" name="rating" placeholder="8.5" step="0.1" min="0" max="10" required /></label>
+        <label>Thể loại<input class="input" type="text" name="genre" placeholder="Action, Drama" required /></label>
+      </div>
+      <label>Link ảnh<input class="input" type="url" name="imgURL" placeholder="https://..." required /></label>
+      <label>Mô tả<textarea class="input" name="description" placeholder="Tóm tắt nội dung..." required></textarea></label>
+      <button type="submit" class="btn btn-primary">Thêm Anime</button>
+      <div id="form-message" role="status"></div>
+    </form>
   </div>
-  <video id="background-video" autoplay="" muted="" loop="" style="width: 66px; height: 36.3333px; left: 58px; top: 179px; transition: none; cursor: move;" data-selected="true" data-label-id="0">
-    <source src="video/anime%20eye%20edit.mp4" type="video/mp4">
-    Trình duyệt của bạn không hỗ trợ video.
-  <!-- </video>
-    <source src="video/anime%20eye%20edit.mp4" type="video/mp4">
-    Trình duyệt của bạn không hỗ trợ video.
-  </video> -->
-  
+
+  <footer class="footer">© ANXO · My Anime Ranking</footer>
+
   <script src="script.js"></script>
-  <script>
-    // Theme toggle logic
-    const btn = document.getElementById('theme-toggle');
-    function setTheme(dark) {
-      if (dark) {
-        document.body.classList.add('dark-theme');
-        btn.textContent = '☀️';
-      } else {
-        document.body.classList.remove('dark-theme');
-        btn.textContent = '🌙';
-      }
-    }
-    btn.onclick = () => {
-      setTheme(!document.body.classList.contains('dark-theme'));
-    };
-    // Optional: remember theme
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) setTheme(true);
-
-    // Show/hide form logic
-    const showFormBtn = document.getElementById('show-form-btn');
-    const addAnimeForm = document.getElementById('add-anime-form');
-    
-    if (showFormBtn && addAnimeForm) {
-      showFormBtn.addEventListener('click', () => {
-        const isVisible = addAnimeForm.style.display === 'flex';
-        addAnimeForm.style.display = isVisible ? 'none' : 'flex';
-        showFormBtn.textContent = isVisible ? '+ Thêm Anime' : '− Đóng Form';
-      });
-
-      // Reset nút khi submit thành công
-      addAnimeForm.addEventListener('submit', () => {
-        addAnimeForm.style.display = 'none';
-        showFormBtn.textContent = '+ Thêm Anime';
-      });
-    }
-  </script>
 </body>
 </html>
