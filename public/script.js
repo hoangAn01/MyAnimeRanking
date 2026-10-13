@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:3000/api/animes'
-    : 'https://myanimeranking.onrender.com/api/animes';
+  // GitHub Pages only hosts static files, so it uses the Render API; Express/Vercel serve the API on the same origin.
+  const apiUrl = window.location.hostname.endsWith('github.io')
+    ? 'https://myanimeranking.onrender.com/api/animes'
+    : '/api/animes';
 
   const root = document.documentElement;
   const animeListElement = document.getElementById('animeList');
