@@ -294,3 +294,47 @@ test('database query and insert failures return safe 503 responses', async () =>
     }
   });
 });
+
+test('database failures report actionable categories without disclosing credentials in responses or logs', async () => {
+  const previousError = console.error;
+  const logs = [];
+  console.error = (...args) => logs.push(args);
+  try {
+    const cases = [
+      [{ code: 18 }, 'DATABASE_AUTHENTICATION_FAILED'],
+      [{ code: 8000 }, 'DATABASE_AUTHENTICATION_FAILED'],
+      [{ code: 13 }, 'DATABASE_PERMISSION_DENIED'],
+      [{ name: 'MongoParseError' }, 'DATABASE_INVALID_URI'],
+      [{ name: 'MongoServerSelectionError' }, 'DATABASE_CONNECTION_FAILED'],
+      [{ code: 'ENOTFOUND' }, 'DATABASE_CONNECTION_FAILED'],
+      [{}, 'DATABASE_UNAVAILABLE'],
+    ];
+    for (const [details, expected] of cases) {
+      const error = Object.assign(new Error('mongodb://private-user:private-password@private-host'), details);
+      const mock = fakeDatabase({ connect: async () => { throw error; } });
+      await withRuntime({ uri: 'mongodb://unused.test', MongoClient: mock.MongoClient }, async ({ handler }) => {
+        const response = await invoke(handler, 'GET');
+        assert.equal(response.statusCode, 503);
+        assert.equal(response.body.code, expected);
+        assert.deepEqual(JSON.parse(logs.at(-1)[0]), { event: 'anime_database_error', code: expected });
+        assert.doesNotMatch(JSON.stringify(response.body), /private-|mongodb:\/\//);
+      });
+    }
+    class ForbiddenMongoClient {
+      constructor() { assert.fail('Missing configuration and placeholders must not open MongoDB'); }
+    }
+    for (const [uri, expected] of [
+      ['', 'DATABASE_NOT_CONFIGURED'],
+      ['mongodb+srv://<db_username>:<db_password>@example.test/', 'DATABASE_INVALID_URI'],
+    ]) {
+      await withRuntime({ uri, MongoClient: ForbiddenMongoClient }, async ({ handler }) => {
+        const response = await invoke(handler, 'GET');
+        assert.equal(response.body.code, expected);
+        assert.deepEqual(JSON.parse(logs.at(-1)[0]), { event: 'anime_database_error', code: expected });
+      });
+    }
+    assert.doesNotMatch(JSON.stringify(logs), /private-|mongodb:\/\//);
+  } finally {
+    console.error = previousError;
+  }
+});

@@ -5,7 +5,10 @@ let collectionPromise;
 async function connectDB() {
   const uri = process.env.MONGODB_URI;
   if (!uri) {
-    throw new Error('Database is not configured.');
+    throw Object.assign(new Error('Database is not configured.'), { code: 'DATABASE_NOT_CONFIGURED' });
+  }
+  if (/[<>]/.test(uri)) {
+    throw Object.assign(new Error('Replace connection string placeholders.'), { code: 'DATABASE_INVALID_URI' });
   }
 
   const client = new MongoClient(uri, { serverSelectionTimeoutMS: 5000 });
@@ -27,6 +30,20 @@ function getCollection() {
     });
   }
   return collectionPromise;
+}
+
+function databaseErrorCode(error) {
+  if (error.code === 'DATABASE_NOT_CONFIGURED') return 'DATABASE_NOT_CONFIGURED';
+  if (error.code === 'DATABASE_INVALID_URI' || error.name === 'MongoParseError') return 'DATABASE_INVALID_URI';
+  if (error.code === 18 || error.code === 8000 || error.name === 'MongoAuthenticationError') {
+    return 'DATABASE_AUTHENTICATION_FAILED';
+  }
+  if (error.code === 13) return 'DATABASE_PERMISSION_DENIED';
+  if (['ENOTFOUND', 'EAI_AGAIN', 'ECONNREFUSED', 'ETIMEDOUT'].includes(error.code) ||
+      ['MongoServerSelectionError', 'MongoNetworkError', 'MongoNetworkTimeoutError'].includes(error.name)) {
+    return 'DATABASE_CONNECTION_FAILED';
+  }
+  return 'DATABASE_UNAVAILABLE';
 }
 
 module.exports = async (req, res) => {
@@ -73,7 +90,10 @@ module.exports = async (req, res) => {
 
     await animes.insertOne(newAnime);
     return res.status(201).json({ message: 'Thêm anime thành công!', anime: newAnime });
-  } catch {
-    return res.status(503).json({ message: 'Dữ liệu tạm thời không khả dụng. Vui lòng thử lại sau.' });
+  } catch (error) {
+    const code = databaseErrorCode(error);
+    // Never log the error object, URI, message, or stack: they can contain credentials.
+    console.error(JSON.stringify({ event: 'anime_database_error', code }));
+    return res.status(503).json({ message: 'Dữ liệu tạm thời không khả dụng. Vui lòng thử lại sau.', code });
   }
 };
