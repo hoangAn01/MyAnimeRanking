@@ -14,17 +14,31 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 const uri = process.env.MONGODB_URI;
-const client = new MongoClient(uri);
+const client = uri ? new MongoClient(uri) : null;
+
+function ensureMongoClient(req, res, next) {
+  if (!client) {
+    return res.status(500).json({
+      message: 'MONGODB_URI is not set. Add it in the Vercel environment variables.'
+    });
+  }
+  return next();
+}
 
 async function run() {
+  if (!client) {
+    console.warn('MONGODB_URI is not set. Starting app without MongoDB connection.');
+    return;
+  }
+
   try {
     await client.connect();
-    console.log("Connected successfully to MongoDB!");
+    console.log('Connected successfully to MongoDB!');
     const database = client.db('MyAnimeDB');
     const animes = database.collection('Animes');
 
     // API endpoint to get all anime
-    app.get('/api/animes', async (req, res) => {
+    app.get('/api/animes', ensureMongoClient, async (req, res) => {
       try {
         const allAnimes = await animes.find({}).sort({ rating: -1 }).toArray();
         res.json(allAnimes);
@@ -34,22 +48,21 @@ async function run() {
     });
 
     // API endpoint to add a new anime
-    app.post('/api/animes', async (req, res) => {
+    app.post('/api/animes', ensureMongoClient, async (req, res) => {
       try {
         const { title, rating, genre, description, imgURL } = req.body;
         if (!title || !rating || !genre || !description || !imgURL) {
           return res.status(400).json({ message: 'Vui lòng nhập đầy đủ thông tin.' });
         }
         const newAnime = { title, rating: parseFloat(rating), genre, description, imgURL };
-        const result = await animes.insertOne(newAnime);
+        await animes.insertOne(newAnime);
         res.status(201).json({ message: 'Thêm anime thành công!', anime: newAnime });
       } catch (err) {
         res.status(500).json({ message: err.message });
       }
     });
-
   } catch (err) {
-    console.error("Failed to connect to MongoDB", err);
+    console.error('Failed to connect to MongoDB', err);
     process.exit(1);
   }
 }
@@ -58,6 +71,10 @@ run().catch(console.dir);
 
 app.get('/health', (req, res) => {
   res.send('OK');
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.listen(port, () => {
