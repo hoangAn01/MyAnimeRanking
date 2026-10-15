@@ -2,7 +2,7 @@
 
 Anime ranking frontend with a MongoDB API.
 
-Live site: https://my-anime-ranking-lime.vercel.app/
+Live site: [https://my-anime-ranking-lime.vercel.app/](https://my-anime-ranking-bjwranj7n-hoangan01as-gmailcoms-projects.vercel.app/)
 
 ## Run locally
 
