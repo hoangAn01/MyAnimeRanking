@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:3000/api/animes'
-    : 'https://myanimeranking.onrender.com/api/animes';
+  // GitHub Pages hosts only the frontend; Vercel and npm start also serve the API.
+  const apiUrl = window.location.hostname.endsWith('.github.io')
+    ? 'https://my-anime-ranking-lime.vercel.app/api/animes'
+    : '/api/animes';
 
   const root = document.documentElement;
   const animeListElement = document.getElementById('animeList');
